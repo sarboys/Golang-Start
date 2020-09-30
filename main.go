@@ -1,23 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+)
 
 func main() {
-	keys := []string{}
+	files, _ := getFiles(".")
+	fmt.Println(files)
+}
 
-	carta := map[string][]int{
-		"1": {1, 2},
-		"2": {3, 4},
+func getFiles(path string) ([]string, error) {
+	var files []string
+	dirFiles, err := ioutil.ReadDir(fmt.Sprintf("%s", path))
+	if err != nil {
+		return nil, err
 	}
-
-	//Перебор мапа
-	for _, val := range carta {
-		// keys = append(keys, key)
-		fmt.Println(val)
+	for _, val := range dirFiles {
+		files = append(files, val.Name())
 	}
-	fmt.Println(keys)
-
-	//Создание мапа через мейк
-	h := make(map[int]string)
-	fmt.Println(h)
+	return files, nil
 }
