@@ -1,23 +1,35 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
+
+	"github.com/sarboys/Golang-Start/hello"
 )
 
-func main() {
-	files, _ := getFiles(".")
-	fmt.Println(files)
+type status struct {
+	Name string
+}
+type info struct {
+	Markets []struct {
+		Name  string
+		Price int
+	}
 }
 
-func getFiles(path string) ([]string, error) {
-	var files []string
-	dirFiles, err := ioutil.ReadDir(fmt.Sprintf("%s", path))
-	if err != nil {
-		return nil, err
+func main() {
+	fmt.Println(hello.CallFromHello())
+	st := status{Name: "Sergey"}
+	st.Name = "Sergey Polyakov"
+	fmt.Println(st)
+
+	text := `{"markets": [{"name":"Alice", "price" : 25},{"name":"Sergey", "price" : 234},{"name":"Andrey", "price" : 2415}]}`
+
+	infos := new(info)
+	json.Unmarshal([]byte(text), &infos)
+	fmt.Println(infos.Markets)
+
+	for i := range infos.Markets {
+		fmt.Println(i, infos.Markets[i].Name, infos.Markets[i].Price)
 	}
-	for _, val := range dirFiles {
-		files = append(files, val.Name())
-	}
-	return files, nil
 }
