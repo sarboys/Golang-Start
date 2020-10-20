@@ -1,9 +1,11 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 
+	_ "github.com/lib/pq" // here
 	"github.com/sarboys/Golang-Start/hello"
 )
 
@@ -18,6 +20,13 @@ type info struct {
 }
 
 func main() {
+
+	connStr := "host=192.168.1.12 port=5432 user=vu_miheikin password=dhgFFx1VP2 dbname=regofficex sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+
+	fmt.Println(db)
+	fmt.Println(err)
+
 	fmt.Println(hello.CallFromHello())
 	st := status{Name: "Sergey"}
 	st.Name = "Sergey Polyakov"
